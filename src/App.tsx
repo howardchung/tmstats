@@ -18,7 +18,7 @@ async function fetchData(updater: (data: any) => void) {
   // netlify functions proxies the original http data to https
   const resp = await fetch(
     // "https://marsstats.netlify.app/.netlify/functions/stats"
-    "https://mars.howardchung.net/api/statspage",
+    "https://mars.howardchung.net/api/stats",
   );
   const data = await resp.json();
   updater({ games: data.data });
