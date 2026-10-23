@@ -1,31 +1,308 @@
-#root {
+.app {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+/* ---------- Header ---------- */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 8px 4px 28px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #fff1e8 0%, #ffbf94 60%, #ef6f1d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  margin: 8px 0 0;
+  color: var(--text-dim);
+  font-size: 15px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+/* ---------- Panels ---------- */
+.panel {
+  background: linear-gradient(180deg, var(--panel-raised), var(--panel));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-head h3 {
+  margin: 0;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.panel-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.panel-body {
+  overflow: auto;
+  max-height: 78vh;
+}
+
+.panel-body.tall {
+  max-height: 140vh;
+}
+
+/* ---------- Tables ---------- */
+.panel table {
+  --table-border-color: rgba(255, 255, 255, 0.06);
+  --table-highlight-on-hover-color: var(--accent-soft);
+  --table-hover-color: var(--accent-soft);
+  background: transparent;
   width: 100%;
-  padding: 2rem;
-  text-align: center;
 }
 
-.card {
-  padding: 2em;
+.panel thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #1f1712;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
 }
 
-.read-the-docs {
-  color: #888;
+.panel tbody td {
+  vertical-align: middle;
 }
 
-@media (max-width: 600px) {
-  .mobileScroll {
-    max-width: 80vw;
-    overflow-x: scroll;
-  }
+.panel th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+.panel th.sortable:hover {
+  color: var(--text);
+}
+.panel th.sortable.active {
+  color: var(--accent);
+}
+.sort-arrow {
+  margin-left: 4px;
+  font-size: 10px;
 }
 
+.num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ---------- Players ---------- */
+.rank {
+  width: 28px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 600;
+}
+.rank.top {
+  color: #ffd166;
+}
+
+.player-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.player-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+.player-record {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-left: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.player-elo {
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Games ---------- */
+.game-info {
+  font-size: 13px;
+  white-space: nowrap;
+}
+.game-meta {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.result-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.result-row:last-child {
+  margin-bottom: 0;
+}
+.result-who {
+  width: 170px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  line-height: 1.25;
+}
+.result-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.corp-label {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding-right: 34px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.result-delta {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.result-delta.up {
+  color: var(--good);
+}
+.result-delta.down {
+  color: var(--bad);
+}
+.score-label {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 11px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* ---------- Progress bars ---------- */
+.mantine-Progress-root {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  position: relative;
+}
 .progressSection1 {
   margin-right: 1px;
 }
-
 .progressSection2 {
   margin-left: 1px;
 }
+.mantine-Progress-label {
+  font-weight: 700;
+  font-size: 10px;
+}
 
-.label {
+.stat-name {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.pct {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 2px;
+}
+.pct.good {
+  color: var(--good);
+}
+.pct.bad {
+  color: var(--bad);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .app {
+    padding: 16px 10px 32px;
+  }
+  .hero {
+    padding-bottom: 18px;
+  }
+  .panel-body {
+    max-height: 70vh;
+  }
+  .result-who {
+    width: 128px;
+  }
+}
+
+.result-row .result-bar {
+  flex: 1;
+  min-width: 90px;
 }
