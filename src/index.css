@@ -1,19 +1,19 @@
 :root {
-  --bg: #120e0c;
-  --panel: #1b1511;
-  --panel-raised: #231a15;
-  --border: #35261d;
-  --text: #f3e8df;
-  --text-dim: #a89686;
-  --accent: #ef6f1d;
-  --accent-soft: rgba(239, 111, 29, 0.12);
-  --good: #5fd18a;
-  --bad: #ff6b5e;
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --panel-raised: #f8fafc;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-dim: #64748b;
+  --accent: #c2410c;
+  --accent-soft: #fff7ed;
+  --good: #15803d;
+  --bad: #b91c1c;
 
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: dark;
+  color-scheme: light;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -28,11 +28,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   color: var(--text);
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(216, 90, 18, 0.22), transparent 70%),
-    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(146, 55, 15, 0.18), transparent 70%),
-    var(--bg);
-  background-attachment: fixed;
+  background: var(--bg);
 }
 
 #root {
@@ -45,16 +41,16 @@ a {
   font-weight: 500;
 }
 a:hover {
-  color: #ff9a55;
+  color: #9a3412;
   text-decoration: underline;
 }
 
 ::selection {
-  background: rgba(239, 111, 29, 0.4);
+  background: rgba(194, 65, 12, 0.16);
 }
 
 /* Slim scrollbars to match the theme */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #4a3426 transparent;
+  scrollbar-color: #cbd5e1 transparent;
 }
