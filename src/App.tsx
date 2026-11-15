@@ -13,22 +13,6 @@ function textOn(hex: string | undefined) {
   return luminance > 0.62 ? "#1a120d" : "#fff";
 }
 
-// Darken light player colors so text remains legible on white panels
-function inkOnLight(hex: string | undefined) {
-  if (!hex) return "var(--text)";
-  const n = parseInt(hex.slice(1), 16);
-  const r = (n >> 16) & 255;
-  const g = (n >> 8) & 255;
-  const b = n & 255;
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  if (luminance <= 0.52) return hex;
-  const factor = 0.52 / luminance;
-  const dr = Math.round(r * factor);
-  const dg = Math.round(g * factor);
-  const db = Math.round(b * factor);
-  return `rgb(${dr}, ${dg}, ${db})`;
-}
-
 async function fetchData(updater: (data: any) => void) {
   // netlify functions proxies the original http data to https
   const resp = await fetch(
@@ -393,7 +377,7 @@ function App() {
                               className="player-dot"
                               style={{ background: playerColors.get(p) }}
                             />
-                            <span style={{ color: inkOnLight(playerColors.get(p)) }}>
+                            <span style={{ color: playerColors.get(p) }}>
                               {p}
                             </span>
                           </div>
@@ -470,7 +454,7 @@ function App() {
                                 <span
                                   className="result-name"
                                   style={{
-                                    color: inkOnLight(barColor),
+                                    color: barColor,
                                     fontWeight: d.winner === i ? 700 : 500,
                                   }}
                                 >

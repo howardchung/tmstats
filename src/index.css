@@ -1,19 +1,19 @@
 :root {
-  --bg: #f8fafc;
-  --panel: #ffffff;
-  --panel-raised: #f8fafc;
-  --border: #e2e8f0;
-  --text: #0f172a;
-  --text-dim: #64748b;
-  --accent: #c2410c;
-  --accent-soft: #fff7ed;
-  --good: #15803d;
-  --bad: #b91c1c;
+  --bg: #0b0f17;
+  --panel: #111827;
+  --panel-raised: #161f30;
+  --border: #1e293b;
+  --text: #f1f5f9;
+  --text-dim: #94a3b8;
+  --accent: #f97316;
+  --accent-soft: rgba(249, 115, 22, 0.12);
+  --good: #4ade80;
+  --bad: #f87171;
 
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light;
+  color-scheme: dark;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -41,16 +41,16 @@ a {
   font-weight: 500;
 }
 a:hover {
-  color: #9a3412;
+  color: #fb923c;
   text-decoration: underline;
 }
 
 ::selection {
-  background: rgba(194, 65, 12, 0.16);
+  background: rgba(249, 115, 22, 0.3);
 }
 
 /* Slim scrollbars to match the theme */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-color: #334155 transparent;
 }
