@@ -1,40 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  MantineProvider,
-  createTheme,
-  Table,
-  Progress,
-  Text,
-  Grid,
-  Checkbox,
-  Switch,
-  Button,
-} from "@mantine/core";
-import "@mantine/core/styles.css";
 
 import "./App.css";
-
-const theme = createTheme({
-  primaryColor: "mars",
-  primaryShade: 5,
-  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
-  headings: { fontFamily: '"Space Grotesk", Inter, sans-serif' },
-  defaultRadius: "md",
-  colors: {
-    mars: [
-      "#fff1e8",
-      "#ffdcc6",
-      "#ffbf94",
-      "#ffa062",
-      "#f98638",
-      "#ef6f1d",
-      "#d85a12",
-      "#b54610",
-      "#92370f",
-      "#6e290c",
-    ],
-  },
-});
 
 // Pick black or white text depending on how light the bar color is
 function textOn(hex: string | undefined) {
@@ -331,357 +297,370 @@ function App() {
     (a, b) => awardSortFn(b) - awardSortFn(a)
   );
   return (
-    <MantineProvider theme={theme} defaultColorScheme="dark">
-      <div className="app">
-        <header className="hero">
-          <div>
-            <span className="eyebrow">Elo ratings &amp; stats</span>
-            <h1>Terraforming Mars</h1>
-            <p>
-              Leaderboard and card statistics, updated automatically with new
-              games.
-            </p>
-          </div>
-          <div className="hero-actions">
-            <Switch
+    <div className="app">
+      <header className="hero">
+        <div>
+          <span className="eyebrow">Elo ratings &amp; stats</span>
+          <h1>Terraforming Mars</h1>
+          <p>
+            Leaderboard and card statistics, updated automatically with new
+            games.
+          </p>
+        </div>
+        <div className="hero-actions">
+          <label className="switch">
+            <input
+              type="checkbox"
               checked={inPersonOnly}
               onChange={(event) => setInPersonOnly(event.currentTarget.checked)}
-              label="In-person games only"
             />
-            <Button
-              component="a"
-              target="_blank"
-              href="https://mars.howardchung.net"
-              style={{ textDecoration: "none" }}
-            >
-              Play a game
-            </Button>
-          </div>
-        </header>
-        <Grid columns={24} gutter="lg">
-          <Grid.Col span={{ lg: 4.5, base: 24 }}>
-            <Panel title="Players" count={players.length}>
-              <Table verticalSpacing="xs" horizontalSpacing="xs" highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th></Table.Th>
-                    <Table.Th></Table.Th>
-                    <Table.Th>Player</Table.Th>
-                    <Table.Th className="num">Elo</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {players
-                    .sort(
-                      (a, b) =>
-                        (eloRatings.get(b) ?? 0) - (eloRatings.get(a) ?? 0)
-                    )
-                    .map((p, rank) => {
-                      return (
-                        <Table.Tr key={p}>
-                          <Table.Td>
-                            <Checkbox
-                              size="xs"
-                              aria-label={`Filter games by ${p}`}
-                              value={Boolean(selectedPlayers.get(p)).toString()}
-                              onChange={(event: any) => {
-                                const newSelectedPlayers = new Map(
-                                  selectedPlayers
-                                );
-                                newSelectedPlayers.set(
-                                  p,
-                                  event.currentTarget.checked
-                                );
-                                setSelectedPlayers(newSelectedPlayers);
-                              }}
-                            />
-                          </Table.Td>
-                          <Table.Td className={`rank ${rank < 3 ? "top" : ""}`}>
-                            {rank + 1}
-                          </Table.Td>
-                          <Table.Td>
-                            <div className="player-name">
-                              <span
-                                className="player-dot"
-                                style={{ background: playerColors.get(p) }}
-                              />
-                              <span style={{ color: playerColors.get(p) }}>
-                                {p}
-                              </span>
-                            </div>
-                            <div className="player-record">
-                              {pWins.get(p) ?? 0}W &ndash;{" "}
-                              {(pGames.get(p) ?? 0) - (pWins.get(p) ?? 0)}L
-                            </div>
-                          </Table.Td>
-                          <Table.Td className="num">
-                            <span className="player-elo">
-                              {eloRatings.get(p)?.toFixed(0)}
-                            </span>
-                          </Table.Td>
-                        </Table.Tr>
-                      );
-                    })}
-                </Table.Tbody>
-              </Table>
-            </Panel>
-          </Grid.Col>
-          <Grid.Col span={{ lg: 9.5, base: 24 }}>
-            <Panel title="Games" count={sortedGames.length} tall>
-              <Table verticalSpacing="xs" horizontalSpacing="xs" highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <SortTh
-                      active={gameSortKey === "" || gameSortKey === "createdTimeMs"}
-                      onClick={() => setGameSortKey("createdTimeMs")}
-                    >
-                      Date
-                    </SortTh>
-                    <Table.Th>Result</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {sortedGames.map((d: any) => {
+            <span className="switch-track">
+              <span className="switch-thumb" />
+            </span>
+            <span>In-person games only</span>
+          </label>
+          <a
+            className="btn-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://mars.howardchung.net"
+          >
+            Play a game
+          </a>
+        </div>
+      </header>
+      <div className="dashboard-grid">
+        <div>
+          <Panel title="Players" count={players.length}>
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th>Player</th>
+                  <th className="num">Elo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {players
+                  .sort(
+                    (a, b) =>
+                      (eloRatings.get(b) ?? 0) - (eloRatings.get(a) ?? 0)
+                  )
+                  .map((p, rank) => {
                     return (
-                      <Table.Tr key={d.createdTimeMs}>
-                        <Table.Td>
-                          <div className="game-info">
-                            <a
-                              href={`https://mars.howardchung.net/game?id=${d.gameId}`}
-                            >
-                              {new Date(d.createdTimeMs).toLocaleString("en", {
-                                hour12: false,
-                                hour: "2-digit",
-                                minute: "2-digit",
-                                year: "numeric",
-                                month: "short",
-                                day: "2-digit",
-                              })}
-                            </a>
-                            <div className="game-meta">
-                              {`${Math.floor(d.durationMs / 1000 / 60)}:${(
-                                Math.floor(d.durationMs / 1000) % 60
-                              )
-                                .toString()
-                                .padStart(2, "0")}`}{" "}
-                              &middot; {d.generations} gen
-                            </div>
-                            <div className="game-meta">{d.map}</div>
+                      <tr key={p}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            className="player-checkbox"
+                            aria-label={`Filter games by ${p}`}
+                            checked={Boolean(selectedPlayers.get(p))}
+                            onChange={(event) => {
+                              const newSelectedPlayers = new Map(
+                                selectedPlayers
+                              );
+                              newSelectedPlayers.set(
+                                p,
+                                event.currentTarget.checked
+                              );
+                              setSelectedPlayers(newSelectedPlayers);
+                            }}
+                          />
+                        </td>
+                        <td className={`rank ${rank < 3 ? "top" : ""}`}>
+                          {rank + 1}
+                        </td>
+                        <td>
+                          <div className="player-name">
+                            <span
+                              className="player-dot"
+                              style={{ background: playerColors.get(p) }}
+                            />
+                            <span style={{ color: playerColors.get(p) }}>
+                              {p}
+                            </span>
                           </div>
-                        </Table.Td>
-                        <Table.Td>
-                          {d.players.map((target: any, i: number) => {
-                            const trackedP = players.find(
-                              (p2: string) => p2 === target.name?.trim()
-                            );
-                            const winnerScore = d.players[d.winner]?.score;
-                            const barColor = playerColors.get(trackedP);
-                            return (
-                              <div className="result-row" key={`${i}-${target?.name}`}>
-                                <div className="result-who">
-                                  <Text
-                                    className="result-name"
-                                    c={barColor}
-                                    fw={d.winner === i ? 700 : 500}
-                                  >
-                                    {d.winner === i ? "\u2605 " : ""}
-                                    {target?.name} ({target?.curr?.toFixed(0)})
-                                  </Text>
-                                  <span
-                                    className={`result-delta ${
-                                      target?.delta > 0 ? "up" : "down"
-                                    }`}
-                                  >
-                                    {target?.delta > 0 ? "+" : ""}
-                                    {target?.delta?.toFixed(1)}
-                                  </span>
-                                </div>
-                                <Progress.Root
-                                  size={20}
-                                  key={trackedP}
-                                  className="result-bar"
-                                >
-                                  <Progress.Section
-                                    value={(target?.score / winnerScore) * 100}
-                                    color={barColor}
-                                    style={{ justifyContent: "start" }}
-                                  >
-                                    <Progress.Label className="corp-label" c={textOn(barColor)}>
-                                      {target?.corp ?? ""}
-                                    </Progress.Label>
-                                  </Progress.Section>
-                                  <span className="score-label">
-                                    {target?.score}
-                                  </span>
-                                </Progress.Root>
-                              </div>
-                            );
-                          })}
-                        </Table.Td>
-                      </Table.Tr>
+                          <div className="player-record">
+                            {pWins.get(p) ?? 0}W &ndash;{" "}
+                            {(pGames.get(p) ?? 0) - (pWins.get(p) ?? 0)}L
+                          </div>
+                        </td>
+                        <td className="num">
+                          <span className="player-elo">
+                            {eloRatings.get(p)?.toFixed(0)}
+                          </span>
+                        </td>
+                      </tr>
                     );
                   })}
-                </Table.Tbody>
-              </Table>
-            </Panel>
-          </Grid.Col>
-          <Grid.Col span={{ lg: 5, base: 24 }}>
-            <Panel title="Corps" count={sortedCorps.length}>
-              <Table verticalSpacing="xs" horizontalSpacing="xs" highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Name</Table.Th>
-                    <SortTh
-                      className="num"
-                      active={corpSortKey === "" || corpSortKey === "played"}
-                      onClick={() => setCorpSortKey("played")}
-                    >
-                      Played
-                    </SortTh>
-                    <SortTh
-                      active={corpSortKey === "win"}
-                      onClick={() => setCorpSortKey("win")}
-                    >
-                      Win %
-                    </SortTh>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {sortedCorps.map(([k, v]) => (
-                    <Table.Tr key={k}>
-                      <Table.Td>
-                        <div className="stat-name">{k}</div>
-                        <SplitBar
-                          values={players.map((p) => ({
-                            label: p,
-                            value: pCorps.get(p)?.get(k) ?? 0,
-                          }))}
-                          playerColors={playerColors}
-                        />
-                      </Table.Td>
-                      <Table.Td className="num">{v}</Table.Td>
-                      <Table.Td style={{ minWidth: 72 }}>
-                        <PercentBar value={((corpWins.get(k) ?? 0) / v) * 100} />
-                      </Table.Td>
-                    </Table.Tr>
-                  ))}
-                </Table.Tbody>
-              </Table>
-            </Panel>
-            <Panel title="Milestones" count={sortedMilestones.length}>
-              <Table verticalSpacing="xs" horizontalSpacing="xs" highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Name</Table.Th>
-                    <Table.Th className="num">Claimed</Table.Th>
-                    <Table.Th>Win %</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {sortedMilestones.map(([k, v]) => (
-                    <Table.Tr key={k}>
-                      <Table.Td>
-                        <div className="stat-name">{k}</div>
-                        <SplitBar
-                          values={players.map((p) => ({
-                            label: p,
-                            value: pMilestones.get(p)?.get(k) ?? 0,
-                          }))}
-                          playerColors={playerColors}
-                        />
-                      </Table.Td>
-                      <Table.Td className="num">{v}</Table.Td>
-                      <Table.Td style={{ minWidth: 72 }}>
-                        <PercentBar
-                          value={((milestoneWins.get(k) ?? 0) / v) * 100}
-                        />
-                      </Table.Td>
-                    </Table.Tr>
-                  ))}
-                </Table.Tbody>
-              </Table>
-            </Panel>
-            <Panel title="Awards" count={sortedAwards.length}>
-              <Table verticalSpacing="xs" horizontalSpacing="xs" highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Name</Table.Th>
-                    <Table.Th className="num">Funded</Table.Th>
-                    <Table.Th>Win %</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {sortedAwards.map(([k, v]) => (
-                    <Table.Tr key={k}>
-                      <Table.Td>
-                        <div className="stat-name">{k}</div>
-                        <SplitBar
-                          values={players.map((p) => ({
-                            label: p,
-                            value: pAwards.get(p)?.get(k) ?? 0,
-                          }))}
-                          playerColors={playerColors}
-                        />
-                      </Table.Td>
-                      <Table.Td className="num">{v}</Table.Td>
-                      <Table.Td style={{ minWidth: 72 }}>
-                        <PercentBar
-                          value={((awardWins.get(k) ?? 0) / v) * 100}
-                        />
-                      </Table.Td>
-                    </Table.Tr>
-                  ))}
-                </Table.Tbody>
-              </Table>
-            </Panel>
-          </Grid.Col>
-          <Grid.Col span={{ lg: 5, base: 24 }}>
-            <Panel title="Cards" count={sortedCards.length} tall>
-              <Table verticalSpacing="xs" horizontalSpacing="xs" highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Name</Table.Th>
-                    <SortTh
-                      className="num"
-                      active={cardSortKey === "" || cardSortKey === "played"}
-                      onClick={() => setCardSortKey("played")}
-                    >
-                      Played
-                    </SortTh>
-                    <SortTh
-                      active={cardSortKey === "win"}
-                      onClick={() => setCardSortKey("win")}
-                    >
-                      Win %
-                    </SortTh>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {sortedCards.map(([k, v]) => (
-                    <Table.Tr key={k}>
-                      <Table.Td>
-                        <div className="stat-name">{k}</div>
-                        <SplitBar
-                          values={players.map((p) => ({
-                            label: p,
-                            value: pCards.get(p)?.get(k) ?? 0,
-                          }))}
-                          playerColors={playerColors}
-                        />
-                      </Table.Td>
-                      <Table.Td className="num">{v}</Table.Td>
-                      <Table.Td style={{ minWidth: 72 }}>
-                        <PercentBar value={((cardWins.get(k) ?? 0) / v) * 100} />
-                      </Table.Td>
-                    </Table.Tr>
-                  ))}
-                </Table.Tbody>
-              </Table>
-            </Panel>
-          </Grid.Col>
-        </Grid>
+              </tbody>
+            </table>
+          </Panel>
+        </div>
+        <div>
+          <Panel title="Games" count={sortedGames.length} tall>
+            <table>
+              <thead>
+                <tr>
+                  <SortTh
+                    active={gameSortKey === "" || gameSortKey === "createdTimeMs"}
+                    onClick={() => setGameSortKey("createdTimeMs")}
+                  >
+                    Date
+                  </SortTh>
+                  <th>Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedGames.map((d: any) => {
+                  return (
+                    <tr key={d.createdTimeMs}>
+                      <td>
+                        <div className="game-info">
+                          <a
+                            href={`https://mars.howardchung.net/game?id=${d.gameId}`}
+                          >
+                            {new Date(d.createdTimeMs).toLocaleString("en", {
+                              hour12: false,
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              year: "numeric",
+                              month: "short",
+                              day: "2-digit",
+                            })}
+                          </a>
+                          <div className="game-meta">
+                            {`${Math.floor(d.durationMs / 1000 / 60)}:${(
+                              Math.floor(d.durationMs / 1000) % 60
+                            )
+                              .toString()
+                              .padStart(2, "0")}`}{" "}
+                            &middot; {d.generations} gen
+                          </div>
+                          <div className="game-meta">{d.map}</div>
+                        </div>
+                      </td>
+                      <td>
+                        {d.players.map((target: any, i: number) => {
+                          const trackedP = players.find(
+                            (p2: string) => p2 === target.name?.trim()
+                          );
+                          const winnerScore = d.players[d.winner]?.score;
+                          const barColor = playerColors.get(trackedP);
+                          return (
+                            <div className="result-row" key={`${i}-${target?.name}`}>
+                              <div className="result-who">
+                                <span
+                                  className="result-name"
+                                  style={{
+                                    color: barColor,
+                                    fontWeight: d.winner === i ? 700 : 500,
+                                  }}
+                                >
+                                  {d.winner === i ? "\u2605 " : ""}
+                                  {target?.name} ({target?.curr?.toFixed(0)})
+                                </span>
+                                <span
+                                  className={`result-delta ${
+                                    target?.delta > 0 ? "up" : "down"
+                                  }`}
+                                >
+                                  {target?.delta > 0 ? "+" : ""}
+                                  {target?.delta?.toFixed(1)}
+                                </span>
+                              </div>
+                              <div
+                                key={trackedP}
+                                className="progress-root result-bar"
+                                style={{ height: 20 }}
+                              >
+                                <div
+                                  className="progress-section"
+                                  style={{
+                                    width: `${(target?.score / winnerScore) * 100}%`,
+                                    backgroundColor: barColor,
+                                    justifyContent: "flex-start",
+                                  }}
+                                >
+                                  <span
+                                    className="progress-label corp-label"
+                                    style={{ color: textOn(barColor) }}
+                                  >
+                                    {target?.corp ?? ""}
+                                  </span>
+                                </div>
+                                <span className="score-label">
+                                  {target?.score}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </Panel>
+        </div>
+        <div>
+          <Panel title="Corps" count={sortedCorps.length}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <SortTh
+                    className="num"
+                    active={corpSortKey === "" || corpSortKey === "played"}
+                    onClick={() => setCorpSortKey("played")}
+                  >
+                    Played
+                  </SortTh>
+                  <SortTh
+                    active={corpSortKey === "win"}
+                    onClick={() => setCorpSortKey("win")}
+                  >
+                    Win %
+                  </SortTh>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedCorps.map(([k, v]) => (
+                  <tr key={k}>
+                    <td>
+                      <div className="stat-name">{k}</div>
+                      <SplitBar
+                        values={players.map((p) => ({
+                          label: p,
+                          value: pCorps.get(p)?.get(k) ?? 0,
+                        }))}
+                        playerColors={playerColors}
+                      />
+                    </td>
+                    <td className="num">{v}</td>
+                    <td style={{ minWidth: 72 }}>
+                      <PercentBar value={((corpWins.get(k) ?? 0) / v) * 100} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Panel>
+          <Panel title="Milestones" count={sortedMilestones.length}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th className="num">Claimed</th>
+                  <th>Win %</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedMilestones.map(([k, v]) => (
+                  <tr key={k}>
+                    <td>
+                      <div className="stat-name">{k}</div>
+                      <SplitBar
+                        values={players.map((p) => ({
+                          label: p,
+                          value: pMilestones.get(p)?.get(k) ?? 0,
+                        }))}
+                        playerColors={playerColors}
+                      />
+                    </td>
+                    <td className="num">{v}</td>
+                    <td style={{ minWidth: 72 }}>
+                      <PercentBar
+                        value={((milestoneWins.get(k) ?? 0) / v) * 100}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Panel>
+          <Panel title="Awards" count={sortedAwards.length}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th className="num">Funded</th>
+                  <th>Win %</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedAwards.map(([k, v]) => (
+                  <tr key={k}>
+                    <td>
+                      <div className="stat-name">{k}</div>
+                      <SplitBar
+                        values={players.map((p) => ({
+                          label: p,
+                          value: pAwards.get(p)?.get(k) ?? 0,
+                        }))}
+                        playerColors={playerColors}
+                      />
+                    </td>
+                    <td className="num">{v}</td>
+                    <td style={{ minWidth: 72 }}>
+                      <PercentBar
+                        value={((awardWins.get(k) ?? 0) / v) * 100}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Panel>
+        </div>
+        <div>
+          <Panel title="Cards" count={sortedCards.length} tall>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <SortTh
+                    className="num"
+                    active={cardSortKey === "" || cardSortKey === "played"}
+                    onClick={() => setCardSortKey("played")}
+                  >
+                    Played
+                  </SortTh>
+                  <SortTh
+                    active={cardSortKey === "win"}
+                    onClick={() => setCardSortKey("win")}
+                  >
+                    Win %
+                  </SortTh>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedCards.map(([k, v]) => (
+                  <tr key={k}>
+                    <td>
+                      <div className="stat-name">{k}</div>
+                      <SplitBar
+                        values={players.map((p) => ({
+                          label: p,
+                          value: pCards.get(p)?.get(k) ?? 0,
+                        }))}
+                        playerColors={playerColors}
+                      />
+                    </td>
+                    <td className="num">{v}</td>
+                    <td style={{ minWidth: 72 }}>
+                      <PercentBar value={((cardWins.get(k) ?? 0) / v) * 100} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Panel>
+        </div>
       </div>
-    </MantineProvider>
+    </div>
   );
 }
 
@@ -719,14 +698,14 @@ function SortTh({
   children: React.ReactNode;
 }) {
   return (
-    <Table.Th
+    <th
       className={`sortable ${active ? "active" : ""} ${className ?? ""}`}
       onClick={onClick}
       aria-sort={active ? "descending" : "none"}
     >
       {children}
       {active && <span className="sort-arrow">&#9660;</span>}
-    </Table.Th>
+    </th>
   );
 }
 
@@ -735,9 +714,15 @@ function PercentBar({ value }: { value: number }) {
   return (
     <div>
       <div className={`pct ${good ? "good" : "bad"}`}>{value.toFixed(1)}%</div>
-      <Progress.Root size={6}>
-        <Progress.Section value={value} color={good ? "green" : "red"} />
-      </Progress.Root>
+      <div className="progress-root" style={{ height: 6 }}>
+        <div
+          className="progress-section"
+          style={{
+            width: `${value}%`,
+            backgroundColor: good ? "#2f9e44" : "#e03131",
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -752,24 +737,29 @@ function SplitBar({
   const sum = values.map((v) => v.value).reduce((a, b) => a + b, 0);
   return (
     <div style={{ width: "100%" }}>
-      <Progress.Root size={16} classNames={{ label: "label" }}>
+      <div className="progress-root" style={{ height: 16 }}>
         {values.map((v, i) => {
           if (!v || !v.value) {
             return null;
           }
           const color = playerColors.get(v.label);
           return (
-            <Progress.Section
+            <div
               key={i}
-              value={(v.value / sum) * 100}
-              color={color}
+              className="progress-section"
+              style={{
+                width: `${(v.value / sum) * 100}%`,
+                backgroundColor: color,
+              }}
               title={v.label}
             >
-              <Progress.Label c={textOn(color)}>{v.value}</Progress.Label>
-            </Progress.Section>
+              <span className="progress-label" style={{ color: textOn(color) }}>
+                {v.value}
+              </span>
+            </div>
           );
         })}
-      </Progress.Root>
+      </div>
     </div>
   );
 }

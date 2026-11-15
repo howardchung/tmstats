@@ -19,12 +19,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Override Mantine's dark palette with warmer tones */
-:root[data-mantine-color-scheme="dark"] {
-  --mantine-color-body: var(--bg);
-  --mantine-color-text: var(--text);
-}
-
 * {
   box-sizing: border-box;
 }
