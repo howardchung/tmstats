@@ -716,10 +716,9 @@ function PercentBar({ value }: { value: number }) {
       <div className={`pct ${good ? "good" : "bad"}`}>{value.toFixed(1)}%</div>
       <div className="progress-root" style={{ height: 6 }}>
         <div
-          className="progress-section"
+          className={`progress-section ${good ? "good" : "bad"}`}
           style={{
             width: `${value}%`,
-            backgroundColor: good ? "#2f9e44" : "#e03131",
           }}
         />
       </div>
